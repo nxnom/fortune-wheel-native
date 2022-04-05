@@ -1,4 +1,4 @@
-# Wheel of Fortune
+# fortune-wheel-native
 
 Fortune Wheel for react native apps
 
@@ -6,7 +6,7 @@ Fortune Wheel for react native apps
 
 ![App Screenshot](https://raw.githubusercontent.com/ebrain-dev/fortune-wheel-native/master/images/fortunewheel.gif)
 
-View this source code in [Here](https://github.com/ebrain-dev/fortune-wheel-native/tree/master/example).
+View this source code in [Here](https://github.com/ebrain-dev/fortune-wheel-native/tree/master/example). or View Project in [Expo](https://expo.dev/@ebrain/fortune-wheel-native-example)
 
 ## Installation
 
