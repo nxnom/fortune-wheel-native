@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { Dimensions, Animated, View, StyleProp, ViewStyle } from 'react-native'
+import { Dimensions, Animated, View } from 'react-native'
 import * as d3Shape from 'd3-shape'
 
 import Svg, { G, Text, Path, TextAnchor, TextProps } from 'react-native-svg'
@@ -13,6 +13,56 @@ const toCircle = (angle: number = 0) => angle + (360 - (angle % 360))
 const _angle = new Animated.Value(0)
 let currentAngle = 0
 
+/**
+ * @description
+ * This component is a native implementation of FortuneWheel component
+ *
+ * Learn More:
+ *
+ * - [NPM](https://www.npmjs.com/package/fortune-wheel-native)
+ *
+ *
+ * Props:
+ *
+ * @param items - array of items to be displayed in the wheel
+ * @param colors - array of colors to be used for each segment
+ * @param textColors - array of colors to be used for each segment text
+ * @param textMargin - margin between text and center of the segment
+ * @param duration - duration of the animation
+ * @param indicatorPosition - position of the indicator
+ * @param size - size of the component
+ * @param dividerWidth - width of the divider between segments
+ * @param speed - speed of the animation
+ * @param textStyle - style of the text
+ * @param selectedIndex - index of the selected item
+ * @param onFinished - callback function to be called when animation is finished
+ * @returns JSX.Element
+ *
+ * @example
+ * import FortuneWheelNative from 'fortune-wheel-native'
+ *
+ * const MyScreen = () => {
+ *     return (
+ *           <FortuneWheelNative
+ *             items={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
+ *             colors={['#fefefe', '#000']}
+ *             textColors={['#000', '#fff']}
+ *             textMargin={0}
+ *             duration={5000}
+ *             indicatorPosition='bottom'
+ *             size={300}
+ *             dividerWidth={0}
+ *             speed={60}
+ *             textStyle={{ fontSize: 16 }}
+ *             selectedIndex={3}
+ *             onFinished={() => console.log('finished')}
+ *          />
+ *     )
+ * }
+ *
+ * export default MyScreen
+ *
+ */
 const FortuneWheelNative: React.FC<Props> = (props) => {
   const {
     items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
@@ -21,13 +71,10 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     textMargin = 0,
     duration = 5000,
     indicatorPosition = 'bottom',
-    style,
     size = screenWidth,
     dividerWidth = 0,
     speed = 60,
-    textStyle = {
-      fontSize: 16,
-    },
+    textStyle,
     selectedIndex,
     onFinished = () => null,
   } = props
@@ -101,7 +148,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     return arcs.map((arc, index) => {
       const instance = d3Shape
         .arc()
-        .padAngle(dividerWidth)
+        .padAngle(dividerWidth / 100)
         .outerRadius(size / 2)
         .innerRadius(0)
       return {
@@ -132,16 +179,15 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
                 }),
               },
             ],
-            width: size - 20,
-            height: size - 20,
-            borderRadius: (size - 20) / 2,
+            width: size,
+            height: size,
+            borderRadius: size / 2,
           },
-          style,
         ]}
       >
         <AnimatedSvg
-          width={size - 40}
-          height={size - 40}
+          width={size}
+          height={size}
           viewBox={`0 0 ${size} ${size}`}
           style={{ transform: [{ rotate: `-${angleOffset}deg` }] }}
         >
@@ -184,6 +230,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
                       y={_y}
                       fill={textColors[i % textColors.length]}
                       textAnchor={textAnchor}
+                      fontSize={16}
                       {...textStyle}
                     >
                       {number}
@@ -221,7 +268,6 @@ type Props = {
   textMargin?: 0
   duration?: number
   indicatorPosition?: IndicatorPosition
-  style?: StyleProp<ViewStyle>
   size?: number
   dividerWidth?: number
   speed?: number
