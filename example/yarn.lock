@@ -2795,10 +2795,10 @@ for-in@^1.0.2:
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"
   integrity sha1-gQaNKVqBQuwKxybG4iAMMPttXoA=
 
-fortune-wheel-native@^1.0.1:
-  version "1.0.1"
-  resolved "https://registry.yarnpkg.com/fortune-wheel-native/-/fortune-wheel-native-1.0.1.tgz#660202cc40da5d39bddea9dd534a18a5e994c3eb"
-  integrity sha512-7xu+Uzdnas+sMJTk9ixoppY7FikrH/G1gpj9Usacae07S/G9E5xPepEZJHIEKZEebDUyEX82CCPjwsrR54/i0g==
+fortune-wheel-native@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/fortune-wheel-native/-/fortune-wheel-native-1.0.2.tgz#2b4e20c95b98ddaac30b29b07c4eccda11742f0e"
+  integrity sha512-MASzyhswTytysPxGrB7aIb5BmMqOcbrGOLd0Eus1aO9szL/9Peg+d3kGUnm1pX9WUPBYdyWymrPaT0dEXO3AAg==
   dependencies:
     d3-shape "^3.1.0"
     react-native-svg "^12.3.0"

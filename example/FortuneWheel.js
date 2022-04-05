@@ -1,11 +1,11 @@
 import React, { useState } from 'react'
 import { View, Text, StyleSheet, Image, Dimensions, Button } from 'react-native'
-import FortuneWheelNative from './FortuneWheelNative'
+import FortuneWheelNative from 'fortune-wheel-native'
 
 const { width: screenWidth } = Dimensions.get('screen')
 
 const FortuneWheel = () => {
-  const [rewardIndex, setRewardIndex] = useState()
+  const [stop, setStop] = useState()
   const [message, setMessage] = useState('')
   const [isSpinning, setIsSpinning] = useState(false)
 
@@ -42,11 +42,11 @@ const FortuneWheel = () => {
 
     setMessage('')
     setIsSpinning(true)
-    setRewardIndex((_) => random)
+    setStop((_) => random)
   }
 
   const onFinished = (value, _) => {
-    setRewardIndex(undefined)
+    setStop(undefined)
     setMessage(`Congratulation! You won ${value}.`)
     setIsSpinning(false)
   }
@@ -57,7 +57,7 @@ const FortuneWheel = () => {
           <FortuneWheelNative
             items={Array.from({ length }).map((_, i) => `${i + 1}00$`)}
             size={screenWidth * 0.78}
-            stop={rewardIndex}
+            stop={stop}
             indicatorPosition='top'
             textMargin={-screenWidth * 0.03}
             compactMode

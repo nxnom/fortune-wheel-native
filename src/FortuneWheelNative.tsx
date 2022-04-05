@@ -16,7 +16,41 @@ let currentAngle = 0
 /**
  * Learn More:
  *
- * - [NPM](https://www.npmjs.com/package/fortune-wheel-native)
+ * - [Documentation](https://www.npmjs.com/package/fortune-wheel-native)
+ * 
+ * @example
+ *  import React, { useState } from 'react'
+    import { View, Button } from 'react-native'
+    import FortuneWheelNative from 'fortune-wheel-native'
+
+    const MyScreen = () => {
+      const [stop, setStop] = useState()
+
+      const play = () => {
+        const random = Math.floor(Math.random() * 10)
+        setStop(random)
+      }
+
+      //    If you have components to spin along side with the fortune wheel. Wrap your components inside `FortuneWheelNative`
+
+      //    <FortuneWheelNative>
+      //        <YourComponent /> // this component will also spin
+      //    </FortuneWheelNative>
+      return (
+        <View
+          style={{
+            flex: 1,
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        >
+          <FortuneWheelNative onFinished={(_, __) => setStop(null)} stop={stop} />
+          <Button title='Spin The Wheel' onPress={play} color='#970302' />
+        </View>
+      )
+    }
+
+    export default MyScreen
  */
 const FortuneWheelNative: React.FC<Props> = (props) => {
   let {
