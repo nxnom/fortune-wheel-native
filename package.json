@@ -1,6 +1,6 @@
 {
   "name": "fortune-wheel-native",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "description": "Easy to used fortune wheel for react native apps.",
   "main": "dist/index.js",
   "scripts": {
