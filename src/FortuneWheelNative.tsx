@@ -14,57 +14,12 @@ const _angle = new Animated.Value(0)
 let currentAngle = 0
 
 /**
- * @description
- * This component is a native implementation of FortuneWheel component
- *
  * Learn More:
  *
  * - [NPM](https://www.npmjs.com/package/fortune-wheel-native)
- *
- *
- * Props:
- *
- * @param items - array of items to be displayed in the wheel
- * @param colors - array of colors to be used for each segment
- * @param textColors - array of colors to be used for each segment text
- * @param textMargin - margin between text and center of the segment
- * @param duration - duration of the animation
- * @param indicatorPosition - position of the indicator
- * @param size - size of the component
- * @param dividerWidth - width of the divider between segments
- * @param speed - speed of the animation
- * @param textStyle - style of the text
- * @param selectedIndex - index of the selected item
- * @param onFinished - callback function to be called when animation is finished
- * @returns JSX.Element
- *
- * @example
- * import FortuneWheelNative from 'fortune-wheel-native'
- *
- * const MyScreen = () => {
- *     return (
- *           <FortuneWheelNative
- *             items={['1', '2', '3', '4', '5', '6', '7', '8', '9', '10']}
- *             colors={['#fefefe', '#000']}
- *             textColors={['#000', '#fff']}
- *             textMargin={0}
- *             duration={5000}
- *             indicatorPosition='bottom'
- *             size={300}
- *             dividerWidth={0}
- *             speed={60}
- *             textStyle={{ fontSize: 16 }}
- *             selectedIndex={3}
- *             onFinished={() => console.log('finished')}
- *          />
- *     )
- * }
- *
- * export default MyScreen
- *
  */
 const FortuneWheelNative: React.FC<Props> = (props) => {
-  const {
+  let {
     items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
     colors = ['#fefefe', '#000'],
     textColors = ['#000', '#fff'],
@@ -75,17 +30,31 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     dividerWidth = 0,
     speed = 60,
     textStyle,
-    selectedIndex,
-    onFinished = () => null,
+    stop,
+    compactMode = false,
+    onFinished,
   } = props
 
   const angleBySegment = 360 / items.length
   const angleOffset = angleBySegment / 2
 
-  useEffect(() => {
-    if (typeof selectedIndex !== 'number') return
+  let wheelInitialDeg = getIndicatorAngle(indicatorPosition)
 
-    if (selectedIndex > items.length) {
+  if (compactMode) {
+    if (indicatorPosition === 'top') {
+      wheelInitialDeg = 0
+      indicatorPosition = 'right'
+    }
+    if (indicatorPosition === 'bottom') {
+      wheelInitialDeg = 180
+      indicatorPosition = 'left'
+    }
+  }
+
+  useEffect(() => {
+    if (typeof stop !== 'number') return
+
+    if (stop > items.length) {
       console.error('Index is out of range')
       return
     }
@@ -96,7 +65,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
        * this value is the angle of the segment that the wheel will stop
        * this is base degree(0 - 360), additional values will be calculated later
        */
-      const winningAngle = 360 - selectedIndex * angleBySegment
+      const winningAngle = 360 - stop * angleBySegment
 
       /**
        * this value help us to calculate the angle of currently stopped segment
@@ -125,12 +94,12 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
         duration: duration,
         useNativeDriver: true,
       }).start(({ finished }) => {
-        if (finished) onFinished()
+        if (finished && onFinished) onFinished(items[stop], stop)
       })
     }
 
     play()
-  }, [selectedIndex])
+  }, [stop])
 
   useEffect(() => {
     _angle.addListener(({ value }) => {
@@ -163,7 +132,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
   return (
     <View
       style={{
-        transform: [{ rotate: `${getIndicatorAngle(indicatorPosition)}deg` }],
+        transform: [{ rotate: `${wheelInitialDeg}deg` }],
       }}
     >
       <Animated.View
@@ -262,18 +231,32 @@ const getIndicatorAngle = (position: IndicatorPosition) => {
 type IndicatorPosition = 'top' | 'right' | 'left' | 'bottom'
 
 type Props = {
+  /** Array of items to be displayed in the wheel */
   items?: any[]
+  /** Index of items where the wheel will stop */
+  stop?: number
+  /** Background Colors for each segment */
   colors?: string[]
+  /** Text Colors for each segment */
   textColors?: string[]
+  /** Margin between text and center of the segment */
   textMargin?: 0
+  /** Duration of the animation */
   duration?: number
+  /** Position of the indicator */
   indicatorPosition?: IndicatorPosition
+  /** Size of the wheel */
   size?: number
+  /** Space between segments */
   dividerWidth?: number
+  /** Speed of the animation */
   speed?: number
+  /** Compact mode for each segment, indicatorPosition - left and right are auto compact mode */
+  compactMode?: boolean
+  /** Style of the text */
   textStyle?: TextProps
-  selectedIndex?: number
-  onFinished?: VoidFunction
+  /** Callback function that trigger when animation finished */
+  onFinished?: (value: any, index: number) => void
 }
 
 export default FortuneWheelNative

@@ -17,3 +17,5 @@ npm-debug.log
 package-lock.json
 
 /src
+/example
+/images
