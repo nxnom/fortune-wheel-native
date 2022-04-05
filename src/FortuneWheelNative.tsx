@@ -8,6 +8,8 @@ const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 
 const { width: screenWidth } = Dimensions.get('screen')
 
+const toCircle = (angle: number = 0) => angle + (360 - (angle % 360))
+
 const _angle = new Animated.Value(0)
 let currentAngle = 0
 
@@ -17,18 +19,17 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     colors = ['#fefefe', '#000'],
     textColors = ['#000', '#fff'],
     textMargin = 0,
-    duration = 3000,
-    indicatorPosition = 'top',
+    duration = 5000,
+    indicatorPosition = 'bottom',
     style,
     size = screenWidth,
     dividerWidth = 0,
-    innerRadius = 0,
+    speed = 60,
     textStyle = {
       fontSize: 16,
     },
     selectedIndex,
     onFinished = () => null,
-    children,
   } = props
 
   const angleBySegment = 360 / items.length
@@ -56,15 +57,24 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
        * that can cause incorrect {winningAngle} values.
        * so, we need to make the {currentAngle} value divided by 360 evenly
        */
-      const currentCircleAngle = currentAngle + (360 - (currentAngle % 360))
+      const currentCircleAngle = toCircle(currentAngle)
+
+      let _speed = speed
+
+      if (speed < 1 || speed > 200) {
+        console.error(
+          'Speed must be between(1 - 100),reset to default value(60)'
+        )
+        _speed = 60
+      }
 
       /**
-       * create more spinning angle base on duration for smooth animation
+       * create more spinning angle base on duration and speed for smooth animation
        */
-      const durationAngle = (360 * duration) / 1000
+      const speedAngle = toCircle((360 * duration) / (10 * (201 - _speed * 2)))
 
       Animated.timing(_angle, {
-        toValue: winningAngle + currentCircleAngle + durationAngle,
+        toValue: winningAngle + currentCircleAngle + speedAngle,
         duration: duration,
         useNativeDriver: true,
       }).start(({ finished }) => {
@@ -93,7 +103,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
         .arc()
         .padAngle(dividerWidth)
         .outerRadius(size / 2)
-        .innerRadius(innerRadius)
+        .innerRadius(0)
       return {
         path: instance(arc as any),
         color: colors[index % colors.length],
@@ -184,7 +194,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
             })}
           </G>
         </AnimatedSvg>
-        {children}
+        {props.children}
       </Animated.View>
     </View>
   )
@@ -214,7 +224,7 @@ type Props = {
   style?: StyleProp<ViewStyle>
   size?: number
   dividerWidth?: number
-  innerRadius?: number
+  speed?: number
   textStyle?: TextProps
   selectedIndex?: number
   onFinished?: VoidFunction

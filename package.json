@@ -4,9 +4,16 @@
   "description": "Easy to used fortune wheel for react native apps.",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "tsc"
   },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ebrain-dev/fortune-wheel-native.git"
+  },
+  "bugs": {
+    "url": "https://github.com/ebrain-dev/fortune-wheel-native/issues"
+  },
+  "homepage": "https://github.com/ebrain-dev/fortune-wheel-native#readme",
   "keywords": [
     "fortune-wheel",
     "fortune wheel react native",
