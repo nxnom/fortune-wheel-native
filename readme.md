@@ -24,21 +24,21 @@ Wheel will spin when `stop` state change.
 
 _If you want to spin multiple time reset the `stop` state when `onFinished` is trigger ._
 
-| Property           | Type                    | Default             | Desc                                                                                          |
-| ------------------ | ----------------------- | ------------------- | --------------------------------------------------------------------------------------------- |
-| items?             | `Array`                 | [1 - 10]            | Fortune Wheel Items                                                                           |
-| stop?              | `number`                | undefined           | Index of segment when wheel spinning stop                                                     |
-| onFinished?        | `Function(value,index)` | `-`                 | Call back to trigger when spinning stopped                                                    |
-| colors?            | `Array`                 | ['#fefefe', '#000'] | Background color for each segment                                                             |
-| textColors?        | `Array`                 | ['#000', '#fff']    | Text color for each segment                                                                   |
-| textMargin?        | `Number`                | 0                   | Margin between text and center of the segment                                                 |
-| duration? _(ms)_   | `Number`                | 5000                | Completion time (ms)                                                                          |
-| speed?             | `Number`                | 60                  | Spinning speed(1-100)                                                                         |
-| indicatorPosition? | `Enum`                  | `bottom`            | Position of indicator(top, right, bottom, left )                                              |
-| size?              | `Number`                | screen width        | Size of wheel                                                                                 |
-| dividerWidth?      | `Number`                | 0                   | Divider width between segments                                                                |
-| textStyle?         | `TextStyle`             | none                | Text styles                                                                                   |
-| compactMode?       | `Boolean`               | false               | Compact mode for each segment, `indicatorPosition` : "left" and "right" are auto compact mode |
+| Property          | Type                    | Default             | Desc                                                                                                                                |
+| ----------------- | ----------------------- | ------------------- | ----------------------------------------------------------------------------------------------------------------------------------- |
+| data?             | `Array`                 | [1 - 10]            | Fortune Wheel data                                                                                                                  |
+| stop?             | `number`                | undefined           | Index of segment when wheel spinning stop                                                                                           |
+| onFinished?       | `Function(value,index)` | `-`                 | Call back to trigger when spinning stopped                                                                                          |
+| backgroundColors? | `Array`                 | ['#fefefe', '#000'] | Background color for each segment                                                                                                   |
+| textColors?       | `Array`                 | ['#000', '#fff']    | Text color for each segment                                                                                                         |
+| textDistance?     | `Number`                | 0                   | Distance between text and center of the segment                                                                                     |
+| duration? _(ms)_  | `Number`                | 5000                | Completion time (ms)                                                                                                                |
+| speed?            | `Number`                | 60                  | Spinning speed(1-100)                                                                                                               |
+| knobPosition?     | `Enum`                  | `bottom`            | Position of knob(top, right, bottom, left )                                                                                         |
+| size?             | `Number`                | screen width        | Size of wheel                                                                                                                       |
+| dividerWidth?     | `Number`                | 0                   | Divider width between segments                                                                                                      |
+| textStyle?        | `TextStyle`             | none                | Text styles                                                                                                                         |
+| compactMode?      | `Boolean`               | false               | When 'true', sets the texts perpendicular to the roulette's radial lines, `knobPosition` : "left" and "right" are auto compact mode |
 
 ## Basic Usage
 

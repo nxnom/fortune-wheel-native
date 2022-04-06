@@ -1,6 +1,6 @@
 {
   "name": "fortune-wheel-native",
-  "version": "1.0.3",
+  "version": "1.0.5",
   "description": "Easy to used fortune wheel for react native apps.",
   "main": "dist/index.js",
   "scripts": {
@@ -19,7 +19,8 @@
     "fortune wheel react native",
     "rollette",
     "wheel",
-    "react native"
+    "react native",
+    "fortune wheel"
   ],
   "author": "ebrain",
   "license": "ISC",

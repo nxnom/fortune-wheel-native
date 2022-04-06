@@ -54,12 +54,12 @@ let currentAngle = 0
  */
 const FortuneWheelNative: React.FC<Props> = (props) => {
   let {
-    items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
-    colors = ['#fefefe', '#000'],
+    data: items = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+    backgroundColors = ['#fefefe', '#000'],
     textColors = ['#000', '#fff'],
-    textMargin = 0,
+    textDistance = 0,
     duration = 5000,
-    indicatorPosition = 'bottom',
+    knobPosition = 'bottom',
     size = screenWidth,
     dividerWidth = 0,
     speed = 60,
@@ -72,16 +72,16 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
   const angleBySegment = 360 / items.length
   const angleOffset = angleBySegment / 2
 
-  let wheelInitialDeg = getIndicatorAngle(indicatorPosition)
+  let wheelInitialDeg = getKnobAngle(knobPosition)
 
   if (compactMode) {
-    if (indicatorPosition === 'top') {
+    if (knobPosition === 'top') {
       wheelInitialDeg = 0
-      indicatorPosition = 'right'
+      knobPosition = 'right'
     }
-    if (indicatorPosition === 'bottom') {
+    if (knobPosition === 'bottom') {
       wheelInitialDeg = 180
-      indicatorPosition = 'left'
+      knobPosition = 'left'
     }
   }
 
@@ -156,7 +156,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
         .innerRadius(0)
       return {
         path: instance(arc as any),
-        color: colors[index % colors.length],
+        color: backgroundColors[index % backgroundColors.length],
         value: items[index],
         centroid: instance.centroid(arc as any),
       }
@@ -203,16 +203,16 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
               let _x = x
               let textAnchor: TextAnchor = 'middle'
 
-              if (indicatorPosition === 'top') {
-                _y = y - 40 + textMargin * -1
-              } else if (indicatorPosition === 'right') {
-                _x = x + 30 + textMargin
+              if (knobPosition === 'top') {
+                _y = y - 40 + textDistance * -1
+              } else if (knobPosition === 'right') {
+                _x = x + 30 + textDistance
                 _y = y + 5
                 textAnchor = 'start'
-              } else if (indicatorPosition === 'bottom') {
-                _y = y + 50 + textMargin
-              } else if (indicatorPosition === 'left') {
-                _x = x - 30 + textMargin * -1
+              } else if (knobPosition === 'bottom') {
+                _y = y + 50 + textDistance
+              } else if (knobPosition === 'left') {
+                _x = x - 30 + textDistance * -1
                 _y = y + 5
                 textAnchor = 'end'
               }
@@ -224,7 +224,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
                     rotation={
                       (i * 360) / items.length +
                       angleOffset +
-                      (360 - getIndicatorAngle(indicatorPosition))
+                      (360 - getKnobAngle(knobPosition))
                     }
                     origin={`${x}, ${y}`}
                   >
@@ -250,7 +250,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
   )
 }
 
-const getIndicatorAngle = (position: IndicatorPosition) => {
+const getKnobAngle = (position: knobPosition) => {
   if (position === 'right') {
     return 90
   } else if (position === 'bottom') {
@@ -262,30 +262,30 @@ const getIndicatorAngle = (position: IndicatorPosition) => {
   return 0
 }
 
-type IndicatorPosition = 'top' | 'right' | 'left' | 'bottom'
+type knobPosition = 'top' | 'right' | 'left' | 'bottom'
 
 type Props = {
   /** Array of items to be displayed in the wheel */
-  items?: any[]
+  data?: any[]
   /** Index of items where the wheel will stop */
   stop?: number
   /** Background Colors for each segment */
-  colors?: string[]
+  backgroundColors?: string[]
   /** Text Colors for each segment */
   textColors?: string[]
   /** Margin between text and center of the segment */
-  textMargin?: 0
-  /** Duration of the animation */
+  textDistance?: 0
+  /** Distance of the option texts from the center of the roulette */
   duration?: number
   /** Position of the indicator */
-  indicatorPosition?: IndicatorPosition
+  knobPosition?: knobPosition
   /** Size of the wheel */
   size?: number
   /** Space between segments */
   dividerWidth?: number
   /** Speed of the animation */
   speed?: number
-  /** Compact mode for each segment, indicatorPosition - left and right are auto compact mode */
+  /** Compact mode for each segment, knobPosition - left and right are auto compact mode */
   compactMode?: boolean
   /** Style of the text */
   textStyle?: TextProps
