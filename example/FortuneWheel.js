@@ -9,7 +9,7 @@ const FortuneWheel = () => {
   const [message, setMessage] = useState('')
   const [isSpinning, setIsSpinning] = useState(false)
 
-  const colors = [
+  const backgroundColors = [
     '#8A083F',
     '#408AD1',
     '#C18900',
@@ -55,13 +55,13 @@ const FortuneWheel = () => {
       <View style={styles.fortuneWheel}>
         <View style={styles.wheelContainer}>
           <FortuneWheelNative
-            items={Array.from({ length }).map((_, i) => `${i + 1}00$`)}
+            data={Array.from({ length }).map((_, i) => `${i + 1}00$`)}
             size={screenWidth * 0.78}
             stop={stop}
-            indicatorPosition='top'
-            textMargin={-screenWidth * 0.03}
+            knobPosition='top'
+            textDistance={-screenWidth * 0.03}
             compactMode
-            colors={colors}
+            backgroundColors={backgroundColors}
             textColors={textColors}
             textStyle={{
               fontSize: 13,
