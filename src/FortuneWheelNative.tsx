@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useRef } from 'react'
 import { Dimensions, Animated, View } from 'react-native'
 import * as d3Shape from 'd3-shape'
 
@@ -9,9 +9,6 @@ const AnimatedSvg = Animated.createAnimatedComponent(Svg)
 const { width: screenWidth } = Dimensions.get('screen')
 
 const toCircle = (angle: number = 0) => angle + (360 - (angle % 360))
-
-const _angle = new Animated.Value(0)
-let currentAngle = 0
 
 /**
  * Learn More:
@@ -61,6 +58,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     duration = 5000,
     knobPosition = 'bottom',
     size = screenWidth,
+    innerRadius,
     dividerWidth = 0,
     speed = 60,
     textStyle,
@@ -85,6 +83,9 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
     }
   }
 
+  const controller = useRef(new Animated.Value(0)).current
+  const currentAngle = useRef(0)
+
   useEffect(() => {
     if (typeof stop !== 'number') return
 
@@ -107,7 +108,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
        * that can cause incorrect {winningAngle} values.
        * so, we need to make the {currentAngle} value divided by 360 evenly
        */
-      const currentCircleAngle = toCircle(currentAngle)
+      const currentCircleAngle = toCircle(currentAngle.current)
 
       let _speed = speed
 
@@ -123,7 +124,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
        */
       const speedAngle = toCircle((360 * duration) / (10 * (201 - _speed * 2)))
 
-      Animated.timing(_angle, {
+      Animated.timing(controller, {
         toValue: winningAngle + currentCircleAngle + speedAngle,
         duration: duration,
         useNativeDriver: true,
@@ -136,12 +137,12 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
   }, [stop])
 
   useEffect(() => {
-    _angle.addListener(({ value }) => {
-      currentAngle = value
+    controller.addListener(({ value }) => {
+      currentAngle.current = value
     })
 
     return () => {
-      _angle.removeAllListeners()
+      controller.removeAllListeners()
     }
   }, [])
 
@@ -153,7 +154,7 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
         .arc()
         .padAngle(dividerWidth / 100)
         .outerRadius(size / 2)
-        .innerRadius(0)
+        .innerRadius(innerRadius || dividerWidth)
       return {
         path: instance(arc as any),
         color: backgroundColors[index % backgroundColors.length],
@@ -176,9 +177,9 @@ const FortuneWheelNative: React.FC<Props> = (props) => {
             justifyContent: 'center',
             transform: [
               {
-                rotate: _angle.interpolate({
+                rotate: controller.interpolate({
                   inputRange: [-360, 0, 360],
-                  outputRange: [`-${360}deg`, `0deg`, `${360}deg`],
+                  outputRange: [`-${360}deg`, '0deg', `${360}deg`],
                 }),
               },
             ],
@@ -281,6 +282,8 @@ type Props = {
   knobPosition?: knobPosition
   /** Size of the wheel */
   size?: number
+  /** Inner Radius of the wheel */
+  innerRadius?: number
   /** Space between segments */
   dividerWidth?: number
   /** Speed of the animation */

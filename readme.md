@@ -36,6 +36,7 @@ _If you want to spin multiple time reset the `stop` state when `onFinished` is t
 | speed?            | `Number`                | 60                  | Spinning speed(1-100)                                                                                                               |
 | knobPosition?     | `Enum`                  | `bottom`            | Position of knob(top, right, bottom, left )                                                                                         |
 | size?             | `Number`                | screen width        | Size of wheel                                                                                                                       |
+| innerRadius?      | Number                  | dividerWidth        | Inner Radius of the wheel                                                                                                           |
 | dividerWidth?     | `Number`                | 0                   | Divider width between segments                                                                                                      |
 | textStyle?        | `TextStyle`             | none                | Text styles                                                                                                                         |
 | compactMode?      | `Boolean`               | false               | When 'true', sets the texts perpendicular to the roulette's radial lines, `knobPosition` : "left" and "right" are auto compact mode |
