@@ -82,7 +82,3 @@ If you have components to spin along side with the fortune wheel. Wrap your comp
   <YourComponent /> // this will also spin
 </FortuneWheelNative>
 ```
-
-## Contributing
-
-Contributions are always welcome!
